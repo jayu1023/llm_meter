@@ -209,34 +209,66 @@ using if anything.
 ## 4. Awesome Flutter PR
 
 **Repo:** https://github.com/Solido/awesome-flutter
+**File to edit:** `README.md`
+**Exact insertion point:** line **338** — right after the `Pure Mixpanel` entry, at the end of the `### Analytics` block (which lives under `## Components` → `### Analytics`).
 
-**Section to edit:** `Tools` → look for an "AI / LLM" or "Observability" sub-section. If none, add under `Tools / Debugging`.
+The Analytics section currently has 3 entries (Usage, Firebase Analytics, Pure Mixpanel). No dedicated AI / LLM / observability section exists yet; this is the closest semantic fit and the section header is literally "Analytics."
 
-**One-line entry:**
+**Steps (run from a fork of Solido/awesome-flutter):**
+
+```bash
+# 1. Fork the repo on the web first, then:
+gh repo clone <your-fork>/awesome-flutter
+cd awesome-flutter
+git checkout -b add-llm-meter
+
+# 2. Insert the one-line entry right after line 337 (Pure Mixpanel)
+#    Manual edit in README.md, OR via sed:
+awk 'NR==337{print; print "- [llm_meter](https://github.com/jayu1023/llm_meter) [⭐] - Per-request token cost, latency, and cache-hit observability HUD for any Flutter LLM app. Drop-in wrapper, live dev HUD, silent telemetry sink in prod. Built-in pricing for 31 hosted models (GPT-5, Claude 4.7, Gemini 2.5, Llama 3.3, etc.) by [Jayu Limbani](https://github.com/jayu1023)."; next}1' README.md > README.new && mv README.new README.md
+
+# 3. Commit + push + PR
+git add README.md
+git commit -m "Add llm_meter under Components/Analytics"
+git push -u origin add-llm-meter
+gh pr create --repo Solido/awesome-flutter --title "Add llm_meter under Components/Analytics" --body-file PR_BODY.md
+```
+
+**One-line entry (matches the section's existing format exactly — `[NAME] [⭐] - Description by [Author]`):**
+
 ```markdown
-* [llm_meter](https://github.com/jayu1023/llm_meter) - Per-request token cost, latency, and cache observability HUD for any Flutter LLM app. Drop-in wrapper, live dev HUD, silent telemetry sink in prod.
+- [llm_meter](https://github.com/jayu1023/llm_meter) [⭐] - Per-request token cost, latency, and cache-hit observability HUD for any Flutter LLM app. Drop-in wrapper, live dev HUD, silent telemetry sink in prod. Built-in pricing for 31 hosted models (GPT-5, Claude 4.7, Gemini 2.5, Llama 3.3, etc.) by [Jayu Limbani](https://github.com/jayu1023).
 ```
 
 **PR title:**
 ```
-Add llm_meter under Tools / Debugging
+Add llm_meter under Components/Analytics
 ```
 
 **PR body:**
 ```
-Adds llm_meter — a Flutter package for tracking what each LLM call in
+Adds llm_meter, a Flutter package for tracking what each LLM call in
 your app actually costs.
 
-- v0.1.0 live on pub.dev
+- v0.1.0 live on pub.dev: https://pub.dev/packages/llm_meter
+- GitHub: https://github.com/jayu1023/llm_meter
 - BSD-3-Clause
 - Zero runtime dependencies
 - 124 tests, flutter analyze clean
-- 31 hosted models priced out of the box
+- Built-in pricing table for 31 hosted models (OpenAI GPT-5, Claude 4.7,
+  Gemini 2.5, Llama 3.3, Mistral, Grok, DeepSeek, Cohere)
 
-The package fills a gap I couldn't find anywhere else: live token cost
-and cache-hit visibility for Flutter apps that talk directly to
-OpenAI / Anthropic / Gemini from the device.
+Why Analytics: the existing Pure Mixpanel and Firebase Analytics entries
+cover event analytics SDKs. llm_meter is the same shape (a telemetry
+SDK with sinks for PostHog and Mixpanel) but scoped to LLM call data
+(token counts, cost in USD, latency, cache-hit %).
+
+Happy to move it to a different section if you'd prefer a dedicated
+AI / Observability bucket — let me know.
 ```
+
+> The PR-body's final paragraph is intentional: it gives the maintainer
+> an easy way to redirect you if they want a new section, instead of just
+> closing the PR. Maintainers like packages that ask first.
 
 ---
 
