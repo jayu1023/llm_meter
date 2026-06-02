@@ -8,6 +8,7 @@ export 'src/core/meter.dart';
 export 'src/core/meter_config.dart';
 export 'src/core/meter_event.dart';
 export 'src/hud/hud.dart';
+export 'src/pricing/currency.dart';
 export 'src/pricing/model_pricing.dart';
 export 'src/pricing/pricing_table.dart';
 export 'src/sinks/batching_sink.dart';
