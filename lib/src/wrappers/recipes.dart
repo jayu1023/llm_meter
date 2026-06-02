@@ -30,13 +30,15 @@ MeterUsage openAiUsage(Map<String, Object?> response) {
   if (usage == null) return MeterUsage.empty;
   final int promptTokens = _readInt(usage['prompt_tokens']) ?? 0;
   final int completionTokens = _readInt(usage['completion_tokens']) ?? 0;
-  final Map<String, Object?>? details =
-      _readMap(usage['prompt_tokens_details']);
+  final Map<String, Object?>? details = _readMap(
+    usage['prompt_tokens_details'],
+  );
   final int cached = _readInt(details?['cached_tokens']) ?? 0;
   // The OpenAI shape gives prompt_tokens *including* cached; subtract so we
   // bill them separately at the cache rate.
-  final int billedIn =
-      promptTokens > cached ? promptTokens - cached : promptTokens;
+  final int billedIn = promptTokens > cached
+      ? promptTokens - cached
+      : promptTokens;
   return MeterUsage(
     tokensIn: billedIn,
     tokensOut: completionTokens,

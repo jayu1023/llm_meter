@@ -62,8 +62,10 @@ class MeterStats {
       totalCached += e.cachedTokensIn;
       totalCost += e.costUsd;
       latenciesMs.add(e.latency.inMilliseconds);
-      final _PerModelAccumulator acc =
-          perModelAcc.putIfAbsent(e.model, _PerModelAccumulator.new);
+      final _PerModelAccumulator acc = perModelAcc.putIfAbsent(
+        e.model,
+        _PerModelAccumulator.new,
+      );
       acc.add(e);
     }
 

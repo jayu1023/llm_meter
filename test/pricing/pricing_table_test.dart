@@ -50,12 +50,15 @@ void main() {
       expect(p.outputRate, closeTo(4.40 / 1000000, 1e-12));
     });
 
-    test(r'claude-opus-4-7 matches Anthropic list price ($15 / $75 per 1M)', () {
-      final ModelPricing p = pricingFor('claude-opus-4-7');
-      expect(p.inputRate, closeTo(15.0 / 1000000, 1e-12));
-      expect(p.outputRate, closeTo(75.0 / 1000000, 1e-12));
-      expect(p.cachedInputRate, closeTo(1.50 / 1000000, 1e-12));
-    });
+    test(
+      r'claude-opus-4-7 matches Anthropic list price ($15 / $75 per 1M)',
+      () {
+        final ModelPricing p = pricingFor('claude-opus-4-7');
+        expect(p.inputRate, closeTo(15.0 / 1000000, 1e-12));
+        expect(p.outputRate, closeTo(75.0 / 1000000, 1e-12));
+        expect(p.cachedInputRate, closeTo(1.50 / 1000000, 1e-12));
+      },
+    );
 
     test(r'claude-sonnet-4-6 matches list price ($3 / $15 per 1M)', () {
       final ModelPricing p = pricingFor('claude-sonnet-4-6');
@@ -115,8 +118,14 @@ void main() {
   group('pricingFor — id normalization', () {
     test('strips provider prefix from OpenRouter-style ids', () {
       expect(pricingFor('openai/gpt-5'), pricingFor('gpt-5'));
-      expect(pricingFor('anthropic/claude-sonnet-4-6'), pricingFor('claude-sonnet-4-6'));
-      expect(pricingFor('google/gemini-2.5-flash'), pricingFor('gemini-2.5-flash'));
+      expect(
+        pricingFor('anthropic/claude-sonnet-4-6'),
+        pricingFor('claude-sonnet-4-6'),
+      );
+      expect(
+        pricingFor('google/gemini-2.5-flash'),
+        pricingFor('gemini-2.5-flash'),
+      );
     });
 
     test('is case insensitive', () {
@@ -140,10 +149,7 @@ void main() {
     });
 
     test('prefix fallback: gpt-5-mini-2026-05-01 -> gpt-5-mini', () {
-      expect(
-        pricingFor('gpt-5-mini-2026-05-01'),
-        pricingFor('gpt-5-mini'),
-      );
+      expect(pricingFor('gpt-5-mini-2026-05-01'), pricingFor('gpt-5-mini'));
     });
 
     test('unknown model returns free pricing', () {
@@ -158,8 +164,10 @@ void main() {
         inputPerMillion: 99.0,
         outputPerMillion: 99.0,
       );
-      final ModelPricing p =
-          pricingFor('gpt-5', overrides: <String, ModelPricing>{'gpt-5': custom});
+      final ModelPricing p = pricingFor(
+        'gpt-5',
+        overrides: <String, ModelPricing>{'gpt-5': custom},
+      );
       expect(p, custom);
     });
 
@@ -222,10 +230,7 @@ void main() {
     });
 
     test('zero tokens => zero cost', () {
-      expect(
-        priceForModel(model: 'gpt-5', tokensIn: 0, tokensOut: 0),
-        0.0,
-      );
+      expect(priceForModel(model: 'gpt-5', tokensIn: 0, tokensOut: 0), 0.0);
     });
 
     test('unknown model => zero cost', () {
@@ -258,23 +263,23 @@ void main() {
     });
 
     test('contains the headliners from each provider family', () {
-      expect(builtInModels, containsAll(<String>[
-        'gpt-5',
-        'claude-opus-4-7',
-        'claude-sonnet-4-6',
-        'gemini-2.5-pro',
-        'llama-3.3-70b',
-        'mistral-large',
-        'grok-4',
-        'deepseek-v3',
-      ]));
+      expect(
+        builtInModels,
+        containsAll(<String>[
+          'gpt-5',
+          'claude-opus-4-7',
+          'claude-sonnet-4-6',
+          'gemini-2.5-pro',
+          'llama-3.3-70b',
+          'mistral-large',
+          'grok-4',
+          'deepseek-v3',
+        ]),
+      );
     });
 
     test('list is unmodifiable', () {
-      expect(
-        () => builtInModels.add('hacked'),
-        throwsUnsupportedError,
-      );
+      expect(() => builtInModels.add('hacked'), throwsUnsupportedError);
     });
   });
 }

@@ -63,8 +63,9 @@ void main() {
     });
 
     test('computes cost when caller passes 0 and model is known', () {
-      final MeterEvent e =
-          LlmMeter.instance.record(_evt(tokensIn: 1000, tokensOut: 2000));
+      final MeterEvent e = LlmMeter.instance.record(
+        _evt(tokensIn: 1000, tokensOut: 2000),
+      );
       // gpt-5: 1000 * 1.25e-6 + 2000 * 10e-6 = 0.02125
       expect(e.costUsd, closeTo(0.02125, 1e-9));
     });
@@ -75,22 +76,24 @@ void main() {
     });
 
     test('unknown model with 0 cost stays at 0', () {
-      final MeterEvent e =
-          LlmMeter.instance.record(_evt(model: 'not-a-model'));
+      final MeterEvent e = LlmMeter.instance.record(_evt(model: 'not-a-model'));
       expect(e.costUsd, 0);
     });
 
     test('pricing overrides win', () {
-      LlmMeter.init(const MeterConfig(
-        pricingOverrides: <String, ModelPricing>{
-          'gpt-5': ModelPricing.perMillion(
-            inputPerMillion: 100.0,
-            outputPerMillion: 100.0,
-          ),
-        },
-      ));
-      final MeterEvent e =
-          LlmMeter.instance.record(_evt(tokensIn: 1000, tokensOut: 1000));
+      LlmMeter.init(
+        const MeterConfig(
+          pricingOverrides: <String, ModelPricing>{
+            'gpt-5': ModelPricing.perMillion(
+              inputPerMillion: 100.0,
+              outputPerMillion: 100.0,
+            ),
+          },
+        ),
+      );
+      final MeterEvent e = LlmMeter.instance.record(
+        _evt(tokensIn: 1000, tokensOut: 1000),
+      );
       // 1000 * 100e-6 + 1000 * 100e-6 = 0.2
       expect(e.costUsd, closeTo(0.2, 1e-9));
     });
@@ -107,24 +110,25 @@ void main() {
   group('LlmMeter.stream', () {
     test('emits each recorded event in order', () async {
       final List<MeterEvent> seen = <MeterEvent>[];
-      final StreamSubscription<MeterEvent> sub =
-          LlmMeter.instance.stream.listen(seen.add);
+      final StreamSubscription<MeterEvent> sub = LlmMeter.instance.stream
+          .listen(seen.add);
       LlmMeter.instance.record(_evt(cost: 0.01));
       LlmMeter.instance.record(_evt(cost: 0.02));
       LlmMeter.instance.record(_evt(cost: 0.03));
       await Future<void>.delayed(Duration.zero);
-      expect(seen.map((MeterEvent e) => e.costUsd),
-          <double>[0.01, 0.02, 0.03]);
+      expect(seen.map((MeterEvent e) => e.costUsd), <double>[0.01, 0.02, 0.03]);
       await sub.cancel();
     });
 
     test('is a broadcast stream — supports multiple listeners', () async {
       final List<MeterEvent> a = <MeterEvent>[];
       final List<MeterEvent> b = <MeterEvent>[];
-      final StreamSubscription<MeterEvent> sa =
-          LlmMeter.instance.stream.listen(a.add);
-      final StreamSubscription<MeterEvent> sb =
-          LlmMeter.instance.stream.listen(b.add);
+      final StreamSubscription<MeterEvent> sa = LlmMeter.instance.stream.listen(
+        a.add,
+      );
+      final StreamSubscription<MeterEvent> sb = LlmMeter.instance.stream.listen(
+        b.add,
+      );
       LlmMeter.instance.record(_evt(cost: 0.01));
       await Future<void>.delayed(Duration.zero);
       expect(a.length, 1);
@@ -137,8 +141,8 @@ void main() {
       LlmMeter.instance.record(_evt(cost: 0.01));
       await Future<void>.delayed(Duration.zero);
       final List<MeterEvent> seen = <MeterEvent>[];
-      final StreamSubscription<MeterEvent> sub =
-          LlmMeter.instance.stream.listen(seen.add);
+      final StreamSubscription<MeterEvent> sub = LlmMeter.instance.stream
+          .listen(seen.add);
       LlmMeter.instance.record(_evt(cost: 0.02));
       await Future<void>.delayed(Duration.zero);
       expect(seen.length, 1);

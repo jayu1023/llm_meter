@@ -125,10 +125,7 @@ class _LlmMeterHudState extends State<LlmMeterHud> {
                   setState(() {
                     final Offset next = (_userOffset ?? anchor) + d.delta;
                     _userOffset = Offset(
-                      next.dx.clamp(
-                        0,
-                        constraints.maxWidth - effective.width,
-                      ),
+                      next.dx.clamp(0, constraints.maxWidth - effective.width),
                       next.dy.clamp(
                         0,
                         constraints.maxHeight - effective.height,
@@ -138,7 +135,8 @@ class _LlmMeterHudState extends State<LlmMeterHud> {
                 },
                 onPanEnd: (_) {
                   // Snap to nearest corner.
-                  final Offset center = (_userOffset ?? anchor) +
+                  final Offset center =
+                      (_userOffset ?? anchor) +
                       Offset(effective.width / 2, effective.height / 2);
                   final HudCorner nearest = _nearestCorner(
                     center,
@@ -156,7 +154,8 @@ class _LlmMeterHudState extends State<LlmMeterHud> {
                 child: _HudCard(
                   size: effective,
                   expanded: _expanded,
-                  currency: widget.displayCurrency ??
+                  currency:
+                      widget.displayCurrency ??
                       LlmMeter.instance.config.displayCurrency,
                   maxEventsInLog: widget.maxEventsInLog,
                 ),
@@ -231,78 +230,85 @@ class _HudCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
             border: Border.all(color: const Color(0x33FFFFFF)),
             boxShadow: const <BoxShadow>[
-              BoxShadow(color: Color(0x66000000), blurRadius: 12, spreadRadius: 1),
+              BoxShadow(
+                color: Color(0x66000000),
+                blurRadius: 12,
+                spreadRadius: 1,
+              ),
             ],
           ),
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
           child: DefaultTextStyle(
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 11,
-            fontFamily: 'monospace',
-            fontFeatures: <FontFeature>[FontFeature.tabularFigures()],
-            decoration: TextDecoration.none,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Row(
-                children: <Widget>[
-                  const Icon(Icons.bolt, color: Colors.tealAccent, size: 13),
-                  const SizedBox(width: 4),
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 11,
+              fontFamily: 'monospace',
+              fontFeatures: <FontFeature>[FontFeature.tabularFigures()],
+              decoration: TextDecoration.none,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    const Icon(Icons.bolt, color: Colors.tealAccent, size: 13),
+                    const SizedBox(width: 4),
+                    const Text(
+                      'llm_meter',
+                      style: TextStyle(
+                        color: Colors.tealAccent,
+                        fontSize: 11,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const Spacer(),
+                    Text(
+                      '${stats.eventCount} evt',
+                      style: const TextStyle(
+                        color: Colors.white54,
+                        fontSize: 10,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 6),
+                _HudRow(
+                  label: 'total',
+                  value: currency.format(stats.totalCostUsd),
+                  emphasis: true,
+                ),
+                _HudRow(
+                  label: 'last',
+                  value:
+                      '${currency.format(stats.lastCostUsd)} · ${stats.lastLatencyMs}ms',
+                ),
+                _HudRow(
+                  label: 'p50/p99',
+                  value: '${stats.p50LatencyMs}/${stats.p99LatencyMs}ms',
+                ),
+                _HudRow(
+                  label: 'cache',
+                  value: '${(stats.cacheHitRatio * 100).toStringAsFixed(0)}%',
+                ),
+                if (expanded) ...<Widget>[
+                  const Divider(color: Color(0x33FFFFFF), height: 10),
                   const Text(
-                    'llm_meter',
-                    style: TextStyle(
-                      color: Colors.tealAccent,
-                      fontSize: 11,
-                      fontWeight: FontWeight.w600,
+                    'recent',
+                    style: TextStyle(color: Colors.white60, fontSize: 10),
+                  ),
+                  const SizedBox(height: 2),
+                  SizedBox(
+                    height: 18.0 * maxEventsInLog.clamp(1, 8),
+                    child: _RecentList(
+                      events: LlmMeter.instance.events(),
+                      currency: currency,
+                      max: maxEventsInLog,
                     ),
                   ),
-                  const Spacer(),
-                  Text(
-                    '${stats.eventCount} evt',
-                    style: const TextStyle(color: Colors.white54, fontSize: 10),
-                  ),
                 ],
-              ),
-              const SizedBox(height: 6),
-              _HudRow(
-                label: 'total',
-                value: currency.format(stats.totalCostUsd),
-                emphasis: true,
-              ),
-              _HudRow(
-                label: 'last',
-                value:
-                    '${currency.format(stats.lastCostUsd)} · ${stats.lastLatencyMs}ms',
-              ),
-              _HudRow(
-                label: 'p50/p99',
-                value: '${stats.p50LatencyMs}/${stats.p99LatencyMs}ms',
-              ),
-              _HudRow(
-                label: 'cache',
-                value: '${(stats.cacheHitRatio * 100).toStringAsFixed(0)}%',
-              ),
-              if (expanded) ...<Widget>[
-                const Divider(color: Color(0x33FFFFFF), height: 10),
-                const Text(
-                  'recent',
-                  style: TextStyle(color: Colors.white60, fontSize: 10),
-                ),
-                const SizedBox(height: 2),
-                SizedBox(
-                  height: 18.0 * maxEventsInLog.clamp(1, 8),
-                  child: _RecentList(
-                    events: LlmMeter.instance.events(),
-                    currency: currency,
-                    max: maxEventsInLog,
-                  ),
-                ),
               ],
-            ],
-          ),
+            ),
           ),
         ),
       ),
@@ -338,8 +344,7 @@ class _HudRow extends StatelessWidget {
               value,
               style: TextStyle(
                 color: emphasis ? Colors.tealAccent : Colors.white,
-                fontWeight:
-                    emphasis ? FontWeight.w600 : FontWeight.w400,
+                fontWeight: emphasis ? FontWeight.w600 : FontWeight.w400,
                 fontSize: emphasis ? 12 : 11,
               ),
             ),
@@ -385,10 +390,7 @@ class _RecentList extends StatelessWidget {
               const SizedBox(width: 4),
               Text(
                 currency.format(e.costUsd),
-                style: const TextStyle(
-                  color: Colors.tealAccent,
-                  fontSize: 10,
-                ),
+                style: const TextStyle(color: Colors.tealAccent, fontSize: 10),
               ),
               const SizedBox(width: 4),
               Text(

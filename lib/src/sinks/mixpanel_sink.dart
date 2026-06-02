@@ -7,7 +7,8 @@ import 'dart:convert';
 import '../core/meter_event.dart';
 import 'meter_sink.dart';
 import '_posthog_http_io.dart'
-    if (dart.library.html) '_posthog_http_web.dart' as http;
+    if (dart.library.html) '_posthog_http_web.dart'
+    as http;
 
 /// Sends events to Mixpanel's `/track` ingestion endpoint.
 ///

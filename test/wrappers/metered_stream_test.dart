@@ -77,14 +77,11 @@ void main() {
         stream: source,
         extractChunk: (_Chunk c) => null,
       );
-      expect(
-        () async {
-          await for (final _ in wrapped) {
-            // consume
-          }
-        },
-        throwsStateError,
-      );
+      expect(() async {
+        await for (final _ in wrapped) {
+          // consume
+        }
+      }, throwsStateError);
       // Give recorder a tick.
       await Future<void>.delayed(const Duration(milliseconds: 20));
       final MeterEvent e = LlmMeter.instance.events().first;

@@ -72,13 +72,21 @@ void main() {
       final MeterStats s = MeterStats.compute(<MeterEvent>[
         e(model: 'gpt-5', cost: 0.01, tokensIn: 100, tokensOut: 50),
         e(model: 'gpt-5', cost: 0.02, tokensIn: 200, tokensOut: 100),
-        e(model: 'claude-sonnet-4-6', cost: 0.05, tokensIn: 300, tokensOut: 150),
+        e(
+          model: 'claude-sonnet-4-6',
+          cost: 0.05,
+          tokensIn: 300,
+          tokensOut: 150,
+        ),
       ]);
       expect(s.perModel['gpt-5']!.eventCount, 2);
       expect(s.perModel['gpt-5']!.totalCostUsd, closeTo(0.03, 1e-9));
       expect(s.perModel['gpt-5']!.tokensIn, 300);
       expect(s.perModel['claude-sonnet-4-6']!.eventCount, 1);
-      expect(s.perModel['claude-sonnet-4-6']!.totalCostUsd, closeTo(0.05, 1e-9));
+      expect(
+        s.perModel['claude-sonnet-4-6']!.totalCostUsd,
+        closeTo(0.05, 1e-9),
+      );
     });
 
     test('last* tracks the most recently added event', () {

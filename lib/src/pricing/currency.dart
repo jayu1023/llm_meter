@@ -24,25 +24,13 @@ class Currency {
   static const Currency usd = Currency(code: 'USD', symbol: r'$', usdRate: 1.0);
 
   /// Euro — rate is a sensible default snapshot; override for accuracy.
-  static const Currency eur = Currency(
-    code: 'EUR',
-    symbol: '€',
-    usdRate: 0.92,
-  );
+  static const Currency eur = Currency(code: 'EUR', symbol: '€', usdRate: 0.92);
 
   /// British pound.
-  static const Currency gbp = Currency(
-    code: 'GBP',
-    symbol: '£',
-    usdRate: 0.78,
-  );
+  static const Currency gbp = Currency(code: 'GBP', symbol: '£', usdRate: 0.78);
 
   /// Indian rupee.
-  static const Currency inr = Currency(
-    code: 'INR',
-    symbol: '₹',
-    usdRate: 83.0,
-  );
+  static const Currency inr = Currency(code: 'INR', symbol: '₹', usdRate: 83.0);
 
   /// Swedish krona.
   static const Currency sek = Currency(

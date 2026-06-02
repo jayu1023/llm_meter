@@ -37,8 +37,9 @@ void main() {
     expect(find.textContaining(r'$0.0500'), findsAtLeastNWidgets(1));
   });
 
-  testWidgets('updates when a new event is recorded',
-      (WidgetTester tester) async {
+  testWidgets('updates when a new event is recorded', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(_wrap(const LlmMeterHud()));
     await tester.pump();
     expect(find.textContaining(r'$0.0000'), findsAtLeastNWidgets(1));
@@ -50,8 +51,7 @@ void main() {
     expect(find.textContaining(r'$0.1000'), findsAtLeastNWidgets(1));
   });
 
-  testWidgets('tap expands to show recent events',
-      (WidgetTester tester) async {
+  testWidgets('tap expands to show recent events', (WidgetTester tester) async {
     LlmMeter.instance.record(_evt(model: 'gpt-5', cost: 0.01));
     LlmMeter.instance.record(_evt(model: 'claude-sonnet-4-6', cost: 0.02));
     await tester.pumpWidget(_wrap(const LlmMeterHud()));

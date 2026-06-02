@@ -40,8 +40,7 @@ void main() {
   group('BatchingSink', () {
     test('flushes when maxBatchSize is reached', () async {
       final _RecordingSink inner = _RecordingSink();
-      final BatchingSink b =
-          BatchingSink(inner: inner, maxBatchSize: 3);
+      final BatchingSink b = BatchingSink(inner: inner, maxBatchSize: 3);
       await b.record(_evt());
       await b.record(_evt());
       expect(inner.records.length, 0);
@@ -66,8 +65,7 @@ void main() {
 
     test('manual flush drains immediately', () async {
       final _RecordingSink inner = _RecordingSink();
-      final BatchingSink b =
-          BatchingSink(inner: inner, maxBatchSize: 100);
+      final BatchingSink b = BatchingSink(inner: inner, maxBatchSize: 100);
       await b.record(_evt());
       await b.flush();
       expect(inner.records.length, 1);
@@ -75,8 +73,7 @@ void main() {
 
     test('close flushes and closes inner', () async {
       final _RecordingSink inner = _RecordingSink();
-      final BatchingSink b =
-          BatchingSink(inner: inner, maxBatchSize: 100);
+      final BatchingSink b = BatchingSink(inner: inner, maxBatchSize: 100);
       await b.record(_evt());
       await b.close();
       expect(inner.records.length, 1);
@@ -85,8 +82,7 @@ void main() {
 
     test('failing inner does not throw out of batching', () async {
       final _RecordingSink inner = _RecordingSink()..failCount = 1;
-      final BatchingSink b =
-          BatchingSink(inner: inner, maxBatchSize: 2);
+      final BatchingSink b = BatchingSink(inner: inner, maxBatchSize: 2);
       await b.record(_evt());
       await b.record(_evt()); // triggers flush; first inner.record throws
       expect(inner.records.length, 1);
@@ -96,8 +92,7 @@ void main() {
   group('RetryingSink', () {
     test('first attempt succeeds → delivers, queue empty', () async {
       final _RecordingSink inner = _RecordingSink();
-      final RetryingSink r =
-          RetryingSink(inner: inner, maxAttempts: 3);
+      final RetryingSink r = RetryingSink(inner: inner, maxAttempts: 3);
       await r.record(_evt());
       expect(inner.records.length, 1);
       expect(r.offlineQueue, isEmpty);

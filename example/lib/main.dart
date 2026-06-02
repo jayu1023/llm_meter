@@ -7,9 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:llm_meter/llm_meter.dart';
 
 void main() {
-  LlmMeter.init(const MeterConfig(
-    sinks: <MeterSink>[ConsoleSink()],
-  ));
+  LlmMeter.init(const MeterConfig(sinks: <MeterSink>[ConsoleSink()]));
   runApp(const LlmMeterDemoApp());
 }
 
@@ -91,12 +89,15 @@ class _ChatPageState extends State<ChatPage> {
     final String prompt = _prompts[rng.nextInt(_prompts.length)];
     final int promptTokens = 400 + rng.nextInt(1600);
     final int responseTokens = 80 + rng.nextInt(420);
-    final int cachedTokens =
-        rng.nextDouble() < 0.4 ? (promptTokens * 0.7).round() : 0;
+    final int cachedTokens = rng.nextDouble() < 0.4
+        ? (promptTokens * 0.7).round()
+        : 0;
 
     setState(() {
       _messages.add(_Msg(role: 'user', model: model, text: prompt));
-      _messages.add(_Msg(role: 'assistant', model: model, text: '', streaming: true));
+      _messages.add(
+        _Msg(role: 'assistant', model: model, text: '', streaming: true),
+      );
     });
     _scrollToBottom();
 
@@ -133,8 +134,10 @@ class _ChatPageState extends State<ChatPage> {
   void _toggleAuto() {
     setState(() => _running = !_running);
     if (_running) {
-      _autoTimer = Timer.periodic(const Duration(milliseconds: 1800),
-          (_) => unawaited(_sendOne()));
+      _autoTimer = Timer.periodic(
+        const Duration(milliseconds: 1800),
+        (_) => unawaited(_sendOne()),
+      );
       unawaited(_sendOne());
     } else {
       _autoTimer?.cancel();
@@ -198,9 +201,9 @@ class _ChatPageState extends State<ChatPage> {
                       const SizedBox(width: 12),
                       FilledButton.tonalIcon(
                         onPressed: _toggleAuto,
-                        icon: Icon(_running
-                            ? Icons.stop_circle
-                            : Icons.play_circle_fill),
+                        icon: Icon(
+                          _running ? Icons.stop_circle : Icons.play_circle_fill,
+                        ),
                         label: Text(_running ? 'Stop auto' : 'Auto-run'),
                       ),
                     ],
@@ -236,15 +239,13 @@ class _MsgBubble extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
             ),
             child: Column(
-              crossAxisAlignment:
-                  me ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+              crossAxisAlignment: me
+                  ? CrossAxisAlignment.end
+                  : CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
                   msg.model,
-                  style: const TextStyle(
-                    fontSize: 10,
-                    color: Colors.white54,
-                  ),
+                  style: const TextStyle(fontSize: 10, color: Colors.white54),
                 ),
                 const SizedBox(height: 4),
                 Text(
@@ -277,9 +278,11 @@ Stream<String> _fakeStream({
   // Per-token latency varies by model class.
   final int perTokenMs = model.contains('opus') || model.contains('pro')
       ? 18
-      : model.contains('mini') || model.contains('flash') || model.contains('nano')
-          ? 6
-          : 10;
+      : model.contains('mini') ||
+            model.contains('flash') ||
+            model.contains('nano')
+      ? 6
+      : 10;
 
   const String text =
       'OK — drafting a reply on the fly. The HUD on the right tracks '
@@ -290,8 +293,10 @@ Stream<String> _fakeStream({
   while (emitted < tokens) {
     final int chunkLen = 6 + rng.nextInt(12);
     final int end = (emitted + chunkLen).clamp(0, tokens);
-    final String chunk =
-        text.substring(emitted % text.length, ((end - 1) % text.length) + 1);
+    final String chunk = text.substring(
+      emitted % text.length,
+      ((end - 1) % text.length) + 1,
+    );
     yield chunk;
     await Future<void>.delayed(Duration(milliseconds: perTokenMs * chunkLen));
     emitted = end;

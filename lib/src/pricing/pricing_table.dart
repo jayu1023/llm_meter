@@ -40,10 +40,11 @@ double priceForModel({
   int cachedTokensIn = 0,
   Map<String, ModelPricing>? overrides,
 }) {
-  return pricingFor(
-    model,
-    overrides: overrides,
-  ).cost(tokensIn: tokensIn, tokensOut: tokensOut, cachedTokensIn: cachedTokensIn);
+  return pricingFor(model, overrides: overrides).cost(
+    tokensIn: tokensIn,
+    tokensOut: tokensOut,
+    cachedTokensIn: cachedTokensIn,
+  );
 }
 
 /// The set of model ids known to the built-in pricing table.
@@ -238,7 +239,10 @@ const Map<String, ModelPricing> _table = <String, ModelPricing>{
     outputPerMillion: 15.0,
     cachedInputPerMillion: 0.75,
   ),
-  'grok-3': ModelPricing.perMillion(inputPerMillion: 3.0, outputPerMillion: 15.0),
+  'grok-3': ModelPricing.perMillion(
+    inputPerMillion: 3.0,
+    outputPerMillion: 15.0,
+  ),
   'grok-3-mini': ModelPricing.perMillion(
     inputPerMillion: 0.30,
     outputPerMillion: 0.50,

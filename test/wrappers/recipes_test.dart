@@ -35,10 +35,7 @@ void main() {
   group('anthropicUsage', () {
     test('parses standard messages usage', () {
       final MeterUsage u = anthropicUsage(<String, Object?>{
-        'usage': <String, Object?>{
-          'input_tokens': 1000,
-          'output_tokens': 500,
-        },
+        'usage': <String, Object?>{'input_tokens': 1000, 'output_tokens': 500},
       });
       expect(u.tokensIn, 1000);
       expect(u.tokensOut, 500);

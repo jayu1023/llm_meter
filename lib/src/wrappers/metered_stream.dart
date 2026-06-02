@@ -91,8 +91,9 @@ class MeteredStream {
             // send per-chunk deltas. Take the larger of the two so total
             // counts match either pattern.
             tokensIn = usage.tokensIn > tokensIn ? usage.tokensIn : tokensIn;
-            tokensOut =
-                usage.tokensOut > tokensOut ? usage.tokensOut : tokensOut;
+            tokensOut = usage.tokensOut > tokensOut
+                ? usage.tokensOut
+                : tokensOut;
             cachedTokensIn = usage.cachedTokensIn > cachedTokensIn
                 ? usage.cachedTokensIn
                 : cachedTokensIn;

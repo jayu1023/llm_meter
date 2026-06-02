@@ -19,10 +19,8 @@ void main() {
         provider: 'openai',
         model: 'gpt-5',
         call: () async => const _FakeResponse(1000, 2000),
-        extract: (_FakeResponse r) => MeterUsage(
-          tokensIn: r.promptTokens,
-          tokensOut: r.completionTokens,
-        ),
+        extract: (_FakeResponse r) =>
+            MeterUsage(tokensIn: r.promptTokens, tokensOut: r.completionTokens),
       );
       expect(r.promptTokens, 1000);
       expect(LlmMeter.instance.events().length, 1);

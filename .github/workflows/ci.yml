@@ -1,0 +1,44 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    name: analyze + test + dry-run publish
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: 3.35.5
+
+      - name: Flutter version
+        run: flutter --version
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Verify formatting
+        run: dart format --output=none --set-exit-if-changed .
+
+      - name: Static analysis
+        run: flutter analyze --fatal-warnings --fatal-infos
+
+      - name: Unit + widget tests
+        run: flutter test --reporter expanded
+
+      - name: Pub publish dry run
+        run: dart pub publish --dry-run
+
+      - name: pana score (informational)
+        run: |
+          dart pub global activate pana
+          dart pub global run pana --no-warning . || true

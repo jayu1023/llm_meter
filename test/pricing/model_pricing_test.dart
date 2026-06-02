@@ -59,8 +59,11 @@ void main() {
     });
 
     test('large-scale call (1M each) stays numerically stable', () {
-      final double c =
-          sonnet.cost(tokensIn: 1000000, tokensOut: 1000000, cachedTokensIn: 1000000);
+      final double c = sonnet.cost(
+        tokensIn: 1000000,
+        tokensOut: 1000000,
+        cachedTokensIn: 1000000,
+      );
       // 3 + 15 + 0.30 = 18.30
       expect(c, closeTo(18.30, 1e-9));
     });

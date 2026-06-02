@@ -43,7 +43,8 @@ class RetryingSink extends MeterSink {
   final List<MeterEvent> _offlineQueue = <MeterEvent>[];
 
   /// Snapshot of currently-queued events that haven't reached the inner sink.
-  List<MeterEvent> get offlineQueue => List<MeterEvent>.unmodifiable(_offlineQueue);
+  List<MeterEvent> get offlineQueue =>
+      List<MeterEvent>.unmodifiable(_offlineQueue);
 
   @override
   Future<void> record(MeterEvent event) async {
