@@ -64,19 +64,17 @@ gh release create v0.1.0 \
 
 ---
 
-## 🎨 Assets needed
+## 🎨 Assets ready
 
-| File | Where | Notes |
-|---|---|---|
-| `launch-assets/hud-demo.gif` | tweet, README, dev.to | 10s loop of the example app, HUD reacting as fake chat streams |
-| `launch-assets/hud-static.png` | LinkedIn, Hacker News | single frame, 1200×630 |
-| `launch-assets/comparison-table.png` | dev.to | screenshot of the README comparison table |
+| File | Dimensions | Size | Where to use |
+|---|---|---|---|
+| ✅ `launch-assets/hud-demo.gif` | 1200×780, 15fps | 7.9 MB | Twitter, README hero, dev.to |
+| ✅ `launch-assets/hud-demo-small.gif` | 720×468, 12fps | 2.9 MB | Reddit, Mastodon, smaller caps |
+| ✅ `launch-assets/hud-static.png` | 1200×630 | 180 KB | LinkedIn, Hacker News, OG card |
+| ✅ `launch-assets/hud-zoom.png` | 800×~480 | 114 KB | README HUD section, inline replies |
+| ☐ `launch-assets/comparison-table.png` | TBD | TBD | dev.to article only (manual screenshot of README table) |
 
-Record the GIF from the example app:
-```bash
-cd example && flutter run -d chrome
-# then use Kap or LICEcap to record the bottom-right HUD while clicking "Auto-run"
-```
+See `launch-assets/README.md` for regeneration commands.
 
 ---
 

@@ -6,6 +6,8 @@
 [![pub package](https://img.shields.io/pub/v/llm_meter.svg)](https://pub.dev/packages/llm_meter)
 [![license: BSD-3-Clause](https://img.shields.io/badge/license-BSD--3--Clause-blue.svg)](LICENSE)
 
+![llm_meter HUD overlaying a streaming chat](https://raw.githubusercontent.com/jayu1023/llm_meter/main/launch-assets/hud-demo.gif)
+
 Most Flutter LLM apps ship with **zero visibility** into how much each call
 costs, how slow the slowest call is, or how often the prompt cache actually
 hits. `llm_meter` fixes that in three lines:
@@ -198,6 +200,8 @@ LlmMeter.init(MeterConfig(
 ```
 
 ## The HUD
+
+<img src="https://raw.githubusercontent.com/jayu1023/llm_meter/main/launch-assets/hud-zoom.png" alt="LlmMeterHud close-up" width="420">
 
 ```dart
 const LlmMeterHud(

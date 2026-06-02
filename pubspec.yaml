@@ -13,6 +13,12 @@ topics:
   - metrics
   - analytics
 
+screenshots:
+  - description: "Live HUD overlaying a streaming chat — total cost, p50/p99 latency, cache-hit %, per-call breakdown."
+    path: launch-assets/hud-static.png
+  - description: "Close-up of the LlmMeterHud card — model totals and live event count."
+    path: launch-assets/hud-zoom.png
+
 environment:
   sdk: ^3.9.2
   flutter: ">=3.10.0"
