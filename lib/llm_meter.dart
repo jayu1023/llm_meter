@@ -18,3 +18,4 @@ export 'src/sinks/posthog_sink.dart';
 export 'src/sinks/retrying_sink.dart';
 export 'src/wrappers/metered_call.dart';
 export 'src/wrappers/metered_stream.dart';
+export 'src/wrappers/recipes.dart';
