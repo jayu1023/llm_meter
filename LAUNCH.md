@@ -2,7 +2,7 @@
 
 Every post you need to make, every platform, every copy-paste-ready blurb.
 
-**Status:** v0.1.0 tagged locally, awaiting publish · **Target ship:** 2026-06-02 (Earliest in roadmap was Jun 14)
+**Status:** SHIPPED 2026-06-02 · v0.1.0 live on pub.dev
 
 Fill these in after publish:
 - **pub.dev:** https://pub.dev/packages/llm_meter
