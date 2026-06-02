@@ -14,6 +14,7 @@ export 'src/pricing/pricing_table.dart';
 export 'src/sinks/batching_sink.dart';
 export 'src/sinks/console_sink.dart';
 export 'src/sinks/meter_sink.dart';
+export 'src/sinks/mixpanel_sink.dart';
 export 'src/sinks/posthog_sink.dart';
 export 'src/sinks/retrying_sink.dart';
 export 'src/wrappers/metered_call.dart';
