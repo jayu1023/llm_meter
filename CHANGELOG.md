@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.1 — 2026-06-10
+
+### Changed
+
+- Republish so pub.dev picks up the README that embeds the animated HUD
+  demo GIF + close-up image (assets were committed after the v0.1.0
+  publish but never shipped to pub.dev).
+
 ## 0.1.0 — 2026-06-02
 
 First public release. Per-request cost + latency + cache observability for

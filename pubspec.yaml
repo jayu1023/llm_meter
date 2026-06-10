@@ -2,7 +2,7 @@ name: llm_meter
 description: >-
   Per-request token cost + latency + cache observability HUD for any Flutter
   LLM app. Drop-in wrapper, live HUD in dev, silent telemetry sink in prod.
-version: 0.1.0
+version: 0.1.1
 homepage: https://github.com/jayu1023/llm_meter
 repository: https://github.com/jayu1023/llm_meter
 issue_tracker: https://github.com/jayu1023/llm_meter/issues
